@@ -4,7 +4,7 @@ object CollectionSerializer extends Serializer {
   def isDefinedAt(value: Any) = value match {
     case _: Array[_]
        | _: TraversableOnce[_]
-       | _: Iterable[_] => true
+       | _: java.lang.Iterable[_] => true
 
     case _ => false
   }
@@ -22,7 +22,7 @@ object CollectionSerializer extends Serializer {
 
       case array: Array[_] => serialize(sw, array)
       case traversableOnce: TraversableOnce[_] => serialize(sw, traversableOnce)
-      case iterable: Iterable[_] => serialize(sw, iterable)
+      case iterable: java.lang.Iterable[_] => serialize(sw, iterable)
     }
 
   private[this] def serialize(sw: JsonWriter, values: Array[_]): Unit = {
@@ -47,7 +47,7 @@ object CollectionSerializer extends Serializer {
     sw.writeByte(']')
   }
 
-  private[this] def serialize(sw: JsonWriter, values: Iterable[_]): Unit = {
+  private[this] def serialize(sw: JsonWriter, values: java.lang.Iterable[_]): Unit = {
     val iterator = values.iterator
     var token = '[': Byte
     while (iterator.hasNext) {

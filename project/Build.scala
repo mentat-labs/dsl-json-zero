@@ -58,14 +58,18 @@ object JsonZeroBuild extends Build {
     )
   )
 
+  import pl.project13.scala.sbt.JmhPlugin
+
   lazy val testing = (project
     settings(buildSettings)
     settings(
       libraryDependencies ++= Seq(
-        "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.6.3" % "test"
+        "com.fasterxml.jackson.module" %% "jackson-module-scala"       % "2.6.3"
+      , "com.fasterxml.jackson.module" %  "jackson-module-afterburner" % "2.6.3"
       , "org.specs2" %% "specs2-scalacheck" % "3.7" % "test"
       )
     )
+    enablePlugins(JmhPlugin)
     dependsOn(macros)
   )
 

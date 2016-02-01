@@ -14,7 +14,7 @@ class ZeroSerializationTest extends Specification {
   private val check = {
     import com.fasterxml.jackson.databind.ObjectMapper
     import com.fasterxml.jackson.module.scala.DefaultScalaModule
-    
+
     val objectMapper = new ObjectMapper().registerModule(DefaultScalaModule)
     objectMapper.writeValueAsString(_: Any)
   }
@@ -59,6 +59,25 @@ class ZeroSerializationTest extends Specification {
   }
 
   def testSeqs = {
-    pending
+    DslJsonZero.serialize(Seq(Long.MinValue, Long.MaxValue)) ==== check(Seq(Long.MinValue, Long.MaxValue))
+    DslJsonZero.serialize(Seq(Int.MinValue, Int.MaxValue)) ==== check(Seq(Int.MinValue, Int.MaxValue))
+    DslJsonZero.serialize(Seq(Short.MinValue, Short.MaxValue)) ==== check(Seq(Short.MinValue, Short.MaxValue))
+    DslJsonZero.serialize(Seq(Byte.MinValue, Byte.MaxValue)) ==== check(Seq(Byte.MinValue, Byte.MaxValue))
+    DslJsonZero.serialize(Seq(Double.MinValue, Double.MaxValue)) ==== check(Seq(Double.MinValue, Double.MaxValue))
+    DslJsonZero.serialize(Seq(Float.MinValue, Float.MaxValue)) ==== check(Seq(Float.MinValue, Float.MaxValue))
+    DslJsonZero.serialize(Seq(false, true)) ==== check(Seq(false, true))
+    DslJsonZero.serialize("ABCDEFGHIJ0123456789".toSeq) ==== check("ABCDEFGHIJ0123456789".toSeq)
+    DslJsonZero.serialize(Seq("ABCDEFGHIJ", "0123456789")) ==== check(Seq("ABCDEFGHIJ", "0123456789"))
+    DslJsonZero.serialize(Seq[java.lang.Long](Long.MinValue, Long.MaxValue)) ==== check(Seq[java.lang.Long](Long.MinValue, Long.MaxValue))
+    DslJsonZero.serialize(Seq[java.lang.Integer](Int.MinValue, Int.MaxValue)) ==== check(Seq[java.lang.Integer](Int.MinValue, Int.MaxValue))
+    DslJsonZero.serialize(Seq[java.lang.Short](Short.MinValue, Short.MaxValue)) ==== check(Seq[java.lang.Short](Short.MinValue, Short.MaxValue))
+    DslJsonZero.serialize(Seq[java.lang.Byte](Byte.MinValue, Byte.MaxValue)) ==== check(Seq[java.lang.Byte](Byte.MinValue, Byte.MaxValue))
+    DslJsonZero.serialize(Seq[java.lang.Double](Double.MinValue, Double.MaxValue)) ==== check(Seq[java.lang.Double](Double.MinValue, Double.MaxValue))
+    DslJsonZero.serialize(Seq[java.lang.Float](Float.MinValue, Float.MaxValue)) ==== check(Seq[java.lang.Float](Float.MinValue, Float.MaxValue))
+    DslJsonZero.serialize(Seq[java.lang.Boolean](false, true)) ==== check(Seq[java.lang.Boolean](false, true))
+    DslJsonZero.serialize("ABCDEFGHIJ0123456789".toSeq.map(java.lang.Character.valueOf)) ==== check("ABCDEFGHIJ0123456789".toSeq.map(java.lang.Character.valueOf))
+    DslJsonZero.serialize(Seq[BigDecimal](-1.01, 0, 1.01).map(_.bigDecimal)) ==== check(Seq[BigDecimal](-1.01, 0, 1.01).map(_.bigDecimal))
+    DslJsonZero.serialize(Seq[BigDecimal](-1.01, 0, 1.01)) ==== check(Seq[BigDecimal](-1.01, 0, 1.01))
+    DslJsonZero.serialize(Seq(UUID.fromString("1-2-3-4-5"), UUID.fromString("0-0-0-0-0"))) ==== check(Seq(UUID.fromString("1-2-3-4-5"), UUID.fromString("0-0-0-0-0")))
   }
 }

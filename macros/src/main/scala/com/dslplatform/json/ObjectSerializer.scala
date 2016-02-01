@@ -19,7 +19,7 @@ object ObjectSerializer extends Serializer {
        | _: UUID
        | _: Array[_]
        | _: TraversableOnce[_]
-       | _: Iterable[_] => true
+       | _: java.lang.Iterable[_] => true
 
     case _ => false
   }
